@@ -1,0 +1,15 @@
+2018/11/29-04:42:02.985 3c84 Recovering log #49
+2018/11/29-04:42:02.986 3c84 Level-0 table #51: started
+2018/11/29-04:42:02.999 3c84 Level-0 table #51: 262 bytes OK
+2018/11/29-04:42:03.009 3c84 Delete type=0 #49
+2018/11/29-04:42:03.011 3c84 Delete type=3 #47
+2018/11/29-04:42:03.011 3fcc Expanding@0 1+1 (262+544 bytes) to 4+1 (1048+544 bytes)
+2018/11/29-04:42:03.011 3fcc Compacting 4@0 + 1@1 files
+2018/11/29-04:42:03.027 3fcc Generated table #53@0: 80 keys, 903 bytes
+2018/11/29-04:42:03.027 3fcc Compacted 4@0 + 1@1 files => 903 bytes
+2018/11/29-04:42:03.029 3fcc compacted to: files[ 0 1 0 0 0 0 0 ]
+2018/11/29-04:42:03.029 3fcc Delete type=2 #40
+2018/11/29-04:42:03.030 3fcc Delete type=2 #42
+2018/11/29-04:42:03.031 3fcc Delete type=2 #45
+2018/11/29-04:42:03.032 3fcc Delete type=2 #48
+2018/11/29-04:42:03.033 3fcc Delete type=2 #51
