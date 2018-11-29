@@ -3,7 +3,7 @@
 |  =========================================================*/
 
 const SHA256 = require('crypto-js/sha256');
-const Data = require('./levelSandbox');
+const Data = require('./levelSandbox');//Getting Data defined from the Sandbox Structure
 
 
 /* ===== Block Class ==============================
