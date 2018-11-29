@@ -1,85 +1,68 @@
-/* ===== Persist data with LevelDB ===================================
-|  Learn more: level: https://github.com/Level/level     |
-|  =============================================================*/
+//Level DB Data Base to Interact with the Block Chain to Store The Data.
+//Author : Vidit Shah
+const path_to_db ='./chaindata';
 
 const level = require('level');
-const chainDB = './chaindata';
-const db = level(chainDB);
 
-// Add data to levelDB with key/value pair
-function addLevelDBData(key,value){
-   return new Promise((resolve,reject)=>{
-     db.put(key, value, function(err) {
-    if (err) return console.log('Block ' + key + ' submission failed', err);
-    resolve(value);
-  })
-});
-}
-
-// Get data from levelDB with key
-function getLevelDBData(key){
-  return new Promise( (resolve,reject)=>{
-  db.get(key, function(err, value) {
-    if (err) return console.log('Not found!', err);
-    console.log('Value = ' + value);
-    resolve(value);
-  })
-})
-}
-
-//Add data to levelDB with value
-function addDataToLevelDB(value) {
-    let i = 0;
-   return new Promise((resolve,reject)=>{
-      db.createReadStream().on('data', function(data) {
-          i++;
-        }).on('error', function(err) {
-            reject('Unable to read data stream!', err)
-        }).on('close', function() {
-          console.log('Block #' + i);
-          resolve(addLevelDBData(i, value));
-        });
+class DataBase {
+  constructor(){
+    //Create the Database when Initialized
+    this.db=level(path_to_db);
+  }
+  //addLevelDBData :Adds Data to the Database -> error if not added in the DataBase
+  addLevelDBData(key,value){
+    let self = this;
+    return new Promise((resolve,reject)=>{
+      self.db.put(key,value,(err)=>{
+        if(err) reject("Error inserting into Database");
+        resolve(key);
       });
-      }
+    });
+  }
+//getLevelDBData -> Get Height of the Block from the Database
+getLevelDBData(key){
+  let self = this;
+  return new Promise((resolve,reject)=>{
+    self.db.get(key,(err)=>{
+      if(err) reject("Error getting ",key);
+      resolve(key);
+    })
+  });
+}
+//addDataToLevelDB - Adds a block by specific Value
+addDataToLevelDB(value){
+  let i=0;
+  let self = this;
+  return new Promise((resolve,reject)=>{
+    self.db.createReadStream()
+      .on('data',(data)=>{i++})
+      .on('error',(error)=>{reject(error)})
+      .on('close', function () {
+        console.log('Block #' + i);
+        self.addLevelDBData(i, value).then((key) => {
+          console.log('Block #' + key);
+        }).catch((err) => {
+          console.log(err);
+        });
+        resolve(value);
+      });
+  });
+}
 
+//getLEvel DB COunt gets The Number of Entries in The DataBase Which is available
+getLevelDBCount()
+{
+  let self = this;
+  let count  =0;
+  return new Promise((resolve,reject)=>{
+    self.db.createReadStream()
+        .on('data',data=>count++)
+        .on('error',error=>reject(error))
+        .on('close',()=>resolve(count));
+  });
+}
 
-// function addDataToLevelDB(value) {
-//   let i = 0;
   
-//   return new Promise((resolve, reject)=>{
-//     db.createReadStream()
-//     .on('data', function (data) {
-//         dataArray.push(data);
-//     })
-//     .on('error', function (err) {
-//         reject(err)
-//     })
-//     .on('close', function () {
-//         resolve(dataArray);
-//     });
-// });
-// }
-/* ===== Testing ==============================================================|
-|  - Self-invoking function to add blocks to chain                             |
-|  - Learn more:                                                               |
-|   https://scottiestech.info/2014/07/01/javascript-fun-looping-with-a-delay/  |
-|                                                                              |
-|  * 100 Milliseconds loop = 36,000 blocks per hour                            |
-|     (13.89 hours for 500,000 blocks)                                         |
-|    Bitcoin blockchain adds 8640 blocks per day                               |
-|     ( new block every 10 minutes )                                           |
-|  ===========================================================================*/
+}
 
-
-(function theLoop (i) {
-  setTimeout(function () {
-    addDataToLevelDB('Testing data');
-    if (--i) theLoop(i);
-  }, 100);
-})(10);
-
-module.exports = {
-  addDataToLevelDB:addDataToLevelDB,
-  getLevelDBData:getLevelDBData,
-  addLevelDBData:addLevelDBData
-};
+module.exports.Model=DataBase;
