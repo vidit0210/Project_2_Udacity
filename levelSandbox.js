@@ -23,9 +23,14 @@ class DataBase {
 getLevelDBData(key){
   let self = this;
   return new Promise((resolve,reject)=>{
-    self.db.get(key,(err)=>{
-      if(err) reject("Error getting ",key);
-      resolve(key);
+    self.db.get(key,(err,value)=>{
+      
+      if(err) {
+        reject("Error getting ",key);
+      }
+      else{
+      resolve(value);
+      }
     })
   });
 }

@@ -1,3 +1,5 @@
-2018/11/29-18:00:29.082 177c Recovering log #5
-2018/11/29-18:00:29.094 177c Delete type=0 #5
-2018/11/29-18:00:29.095 177c Delete type=3 #4
+2018/11/29-23:47:11.013 5cc0 Recovering log #11
+2018/11/29-23:47:11.013 5cc0 Level-0 table #13: started
+2018/11/29-23:47:11.030 5cc0 Level-0 table #13: 1258 bytes OK
+2018/11/29-23:47:11.044 5cc0 Delete type=0 #11
+2018/11/29-23:47:11.046 5cc0 Delete type=3 #10
