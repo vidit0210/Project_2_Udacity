@@ -51,14 +51,14 @@ class Blockchain {
 		newBlock.height = height;
 		let previousHeight = height - 1;
 		try {
-            if(height>1)
-            {
+			if(height>=1)
+			{
 			let previousBlock = await this.getBlock(previousHeight);
 			newBlock.previousBlockHash = previousBlock.hash;
 			newBlock.hash = await SHA256(JSON.stringify(newBlock)).toString();
 			let key = await this.chain.addLevelDBData(height, JSON.stringify(newBlock).toString());
             console.log("New block created at height: #" + key);
-            }
+			}
 		} catch (err) {
 			console.log("Unable to add block to blockchain " + err);
 		}

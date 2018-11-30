@@ -58,8 +58,8 @@ addDataToLevelDB(value){
 getLevelDBCount()
 {
   let self = this;
-  let count  =0;
   return new Promise((resolve,reject)=>{
+    let count  =0;
     self.db.createReadStream()
         .on('data',data=>count++)
         .on('error',error=>reject(error))
